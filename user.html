@@ -1,1 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LegendsArena Ads Center 2</title>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #4B0082;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    button {
+      background-color: #6A0DAD;
+      color: white;
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+    .coin {
+      font-size: 22px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎯 LegendsArena Ad Center 2</h1>
+  <div>
+    <p><strong>Your ID:</strong> <span id="userId"></span></p>
+    <p class="coin">💰 Coins: <span id="coinCount">0</span></p>
+    <button onclick="watchAd()">▶️ Watch Ad</button>
+    <button onclick="claimCoin()">✅ Claim 1 Coin</button>
+  </div>
 
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBBl52sAmoFilvVti--_JKzeg1Xq9z_zRk",
+      authDomain: "legends-arena-f1403.firebaseapp.com",
+      databaseURL: "https://legends-arena-f1403-default-rtdb.firebaseio.com",
+      projectId: "legends-arena-f1403",
+      storageBucket: "legends-arena-f1403.firebasestorage.app",
+      messagingSenderId: "906599695262",
+      appId: "1:906599695262:web:f8d4a25605eb7181b44c8f"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const userId = localStorage.getItem("userId") || "user_" + Math.floor(Math.random() * 1000000);
+    localStorage.setItem("userId", userId);
+    document.getElementById("userId").innerText = userId;
+
+    function updateCoinDisplay() {
+      firebase.database().ref("users/" + userId).on("value", (snapshot) => {
+        const coins = snapshot.val() ? snapshot.val().coins : 0;
+        document.getElementById("coinCount").innerText = coins;
+      });
+    }
+
+    function claimCoin() {
+      const ref = firebase.database().ref("users/" + userId);
+      ref.once("value").then(snapshot => {
+        let currentCoins = snapshot.val() ? snapshot.val().coins : 0;
+        ref.set({ coins: currentCoins + 1 });
+      });
+    }
+
+    function watchAd() {
+      window.open("https://www.profitableratecpm.com/ufdxsy4gcg?key=a7d20082673f1d21cb285a29362855b1", "_blank");
+    }
+
+    updateCoinDisplay();
+  </script>
+</body>
+</html>
